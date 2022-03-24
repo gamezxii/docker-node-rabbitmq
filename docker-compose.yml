@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    container_name: docker-node-rabbitmq-postgres-mongo
+    restart: always
+    build: .
+    ports:
+      - '80:3000'
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+  postgres:
+    container_name: postgresqlqm
+    image: postgres
+    ports: 
+      - '5433:5433'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: item
+  #### RabbitMQ Container ####
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    tty: true
+    ports:
+        - "15672:15672"
+        - "5672:5672"
